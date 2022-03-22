@@ -34,17 +34,15 @@ RUN  curl https://raw.githubusercontent.com/creationix/nvm/v0.20.0/install.sh | 
      echo "export PATH=${PATH}" >> /home/${user}/.bashrc 
 
 # # install jdk-11
-RUN apt-get install software-properties-common && \
+RUN apt-get update && \
+    apt-get install -y software-properties-common && \
     add-apt-repository -y ppa:openjdk-r/ppa && \
-    apt-get update && \
     apt-get install -y openjdk-11-jdk
 
 # # install aws-cli
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && \
     aws/install 
-
-RUN chown -R ${user}:${user} /home/${user}
 
 # setup SSH server
 RUN sed -i /etc/ssh/sshd_config \
@@ -55,7 +53,9 @@ RUN sed -i /etc/ssh/sshd_config \
         -e 's/#LogLevel.*/LogLevel INFO/' && \
     mkdir /var/run/sshd
 
-COPY setup-sshd .
+COPY setup-sshd.sh .
+
+RUN chown -R ${user}:${user} /home/${user}
 
 EXPOSE 22
 
