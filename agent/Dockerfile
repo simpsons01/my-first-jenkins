@@ -33,13 +33,13 @@ RUN  curl https://raw.githubusercontent.com/creationix/nvm/v0.20.0/install.sh | 
      export PATH="/home/${user}/.nvm/versions/${NODE_VERSION}/bin:${PATH}" && \
      echo "export PATH=${PATH}" >> /home/${user}/.bashrc 
 
-# # install jdk-11
+# install jdk-11
 RUN apt-get update && \
     apt-get install -y software-properties-common && \
     add-apt-repository -y ppa:openjdk-r/ppa && \
     apt-get install -y openjdk-11-jdk
 
-# # install aws-cli
+# install aws-cli
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && \
     aws/install 
