@@ -44,16 +44,15 @@ stop-jenkins-agent:
 
 start-jenkins-agent:
 	docker run \
-	  -u root \
+	  --user root \
 		--name jenkins-agent \
 		--rm \
 		--detach \
-		-p 2000:22 \
+		--publish 2000:22 \
+		--env JENKINS_AGENT_SSH_PUBKEY="$(ssh_pubkey)" \
 		--volume ${HOME}/.aws:/home/jenkins/.aws \
-		--volume ${HOME}/.nvm:/home/jenkins/.nvm \
-		--network jenkins-network \
 		docker-agent-image
 
 enter-jenkins-agent:
-	docker exec -it -u jenkins jenkins-agent /bin/bash
+	docker exec -it -u jenkins-agent jenkins-agent /bin/bash
  
