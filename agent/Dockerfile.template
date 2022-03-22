@@ -1,0 +1,25 @@
+FROM jenkins/ssh-agent:latest-jdk11
+
+ENV JENKINS_AGENT_SSH_PUBKEY=""
+
+ENV NODE_VERSION="14.15.1"
+
+SHELL ["/bin/bash", "-c"]
+
+USER root
+
+RUN  apt-get update && \
+     apt-get install -y curl && \
+     apt-get install -y unzip
+
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    aws/install 
+
+# RUN  curl https://raw.githubusercontent.com/creationix/nvm/v0.20.0/install.sh | bash && \
+#      . /home/jenkins/.nvm/nvm.sh && \
+#      mkdir /home/jenkins/.nvm/versions && \
+#      nvm install ${NODE_VERSION} && \
+#      export PATH="/home/jenkins/.nvm/versions/${NODE_VERSION}/bin:${PATH}" && \
+#      echo "export PATH=${PATH}" >> /home/jenkins/.bashrc 
+
