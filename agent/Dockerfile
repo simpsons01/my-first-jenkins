@@ -53,11 +53,11 @@ RUN sed -i /etc/ssh/sshd_config \
         -e 's/#LogLevel.*/LogLevel INFO/' && \
     mkdir /var/run/sshd
 
-COPY setup-sshd.sh .
-
 RUN chown -R ${user}:${user} /home/${user}
+
+COPY setup-sshd /home/${user}/setup-sshd
 
 EXPOSE 22
 
-CMD [ "bash",  "setup-sshd" ]
+CMD [ "bash", "/home/jenkins-agent/setup-sshd" ]
 
