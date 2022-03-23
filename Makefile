@@ -48,7 +48,6 @@ start-jenkins-agent:
 		--name jenkins-agent \
 		--rm \
 		--detach \
-		--publish 2000:22 \
 		--env JENKINS_AGENT_SSH_PUBKEY="$(ssh_pubkey)" \
 		--volume ${HOME}/.aws:/home/jenkins/.aws \
 		--network jenkins-network \
