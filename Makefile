@@ -12,7 +12,6 @@ stop-jenkins:
 
 start-jenkins:
 	docker run \
-	  --user jenkins \
 		--name jenkins \
 		--rm \
 		--detach \
@@ -35,12 +34,11 @@ stop-jenkins-agent:
 
 start-jenkins-agent:
 	docker run \
-	  --user jenkins \
 		--name jenkins-agent \
 		--rm \
 		--detach \
 		--env JENKINS_AGENT_SSH_PUBKEY="$(ssh_pubkey)" \
-		--volume $$(pwd)/jenkins/volumes/jenkins-agent:/home/jenkins-agent
+		--volume $$(pwd)/agent/volumes/jenkins-agent:/home/jenkins-agent \
 		--network jenkins-network \
 		jenkins-agent-image
 
