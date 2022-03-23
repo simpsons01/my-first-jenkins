@@ -1,27 +1,20 @@
 create-network:
-	if [ -z "$$(docker network ls | grep jenkins-network)" ]; then \
-		docker network create jenkins-network; \
-	fi
+	docker network create jenkins-network
 
 build-jenkins:
-	if [ -z "$$(docker image ls | grep jenkins-image)" ]; then \
-		docker build -t jenkins-image ./jenkins; \
-	fi
+	docker build -t jenkins-image ./jenkins
 
 delete-jenkins:
 	docker image rm jenkins-image
 
 stop-jenkins:
-	if [ -n "$$(docker container ls -a | grep jenkins)" ]; then \
-		docker container stop jenkins; \
-	fi
+	docker container stop jenkins
 
 start-jenkins:
 	docker run \
-	  -u root \
+	  --user jenkins \
 		--name jenkins \
 		--rm \
-		-it \
 		--detach \
 		--network jenkins-network \
 		--publish 8080:8080 \
@@ -32,26 +25,24 @@ enter-jenkins:
 	docker exec -it -u jenkins jenkins /bin/bash
 
 build-jenkins-agent:
-	if [ -z "$$(docker image ls | grep docker-agent-image)" ]; then \
-		docker build -t docker-agent-image ./agent; \
-	fi
+	docker build -t jenkins-agent-image ./agent
 
 delete-jenkins-agent:
-	docker image rm docker-agent-image
+	docker image rm jenkins-agent-image
 
 stop-jenkins-agent:
 	docker container stop jenkins-agent
 
 start-jenkins-agent:
 	docker run \
-	  --user root \
+	  --user jenkins \
 		--name jenkins-agent \
 		--rm \
 		--detach \
 		--env JENKINS_AGENT_SSH_PUBKEY="$(ssh_pubkey)" \
-		--volume ${HOME}/.aws:/home/jenkins/.aws \
+		--volume $$(pwd)/jenkins/volumes/jenkins-agent:/home/jenkins-agent
 		--network jenkins-network \
-		docker-agent-image
+		jenkins-agent-image
 
 enter-jenkins-agent:
 	docker exec -it -u jenkins-agent jenkins-agent /bin/bash
