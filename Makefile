@@ -21,11 +21,11 @@ start-jenkins:
 	  -u root \
 		--name jenkins \
 		--rm \
+		-it \
 		--detach \
 		--network jenkins-network \
 		--publish 8080:8080 \
-		--volume $$(pwd)/jenkins/volumes:/var/jenkins_home \
-		--volume $$(pwd)/jenkins/volumes:/certs/client:ro \
+		--volume $$(pwd)/jenkins/volumes/jenkins_home:/var/jenkins_home \
 		jenkins-image
 
 enter-jenkins:
@@ -51,6 +51,7 @@ start-jenkins-agent:
 		--publish 2000:22 \
 		--env JENKINS_AGENT_SSH_PUBKEY="$(ssh_pubkey)" \
 		--volume ${HOME}/.aws:/home/jenkins/.aws \
+		--network jenkins-network \
 		docker-agent-image
 
 enter-jenkins-agent:

@@ -1,0 +1,7 @@
+[[ -f "/var/jenkins_home/.ssh/id_rsa"  ]]
+if [[ $? = 1  ]]; then 
+  mkdir  /var/jenkins_home/.ssh 
+  ssh-keygen -t rsa -f /var/jenkins_home/.ssh/id_rsa -q -N "" 
+fi
+
+/sbin/tini -- /usr/local/bin/jenkins.sh

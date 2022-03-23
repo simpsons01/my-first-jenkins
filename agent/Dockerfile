@@ -55,9 +55,9 @@ RUN sed -i /etc/ssh/sshd_config \
 
 RUN chown -R ${user}:${user} /home/${user}
 
-COPY setup-sshd /home/${user}/setup-sshd
+COPY setup-sshd /usr/sbin/setup-sshd
 
 EXPOSE 22
 
-CMD [ "bash", "/home/jenkins-agent/setup-sshd" ]
+CMD [ "bash" ,"/usr/sbin/setup-sshd" ]
 
