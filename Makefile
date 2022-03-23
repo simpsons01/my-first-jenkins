@@ -17,7 +17,7 @@ start-jenkins:
 		--detach \
 		--network jenkins-network \
 		--publish 8080:8080 \
-		--volume $$(pwd)/jenkins/volumes/jenkins_home:/var/jenkins_home \
+		--volume jenkins:/var/jenkins_home \
 		jenkins-image
 
 enter-jenkins:
@@ -38,7 +38,7 @@ start-jenkins-agent:
 		--rm \
 		--detach \
 		--env JENKINS_AGENT_SSH_PUBKEY="$(ssh_pubkey)" \
-		--volume $$(pwd)/agent/volumes/jenkins-agent:/home/jenkins-agent \
+		--volume jenkins-agent:/home/jenkins-agent \
 		--network jenkins-network \
 		jenkins-agent-image
 
