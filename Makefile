@@ -7,6 +7,9 @@ build-jenkins:
 delete-jenkins:
 	docker image rm jenkins-image
 
+delete-jenkins-volume:
+	docker volume rm jenkins
+
 stop-jenkins:
 	docker container stop jenkins
 
@@ -28,6 +31,9 @@ build-jenkins-agent:
 
 delete-jenkins-agent:
 	docker image rm jenkins-agent-image
+
+delete-jenkins-agent-volume:
+	docker volume rm jenkins-agent
 
 stop-jenkins-agent:
 	docker container stop jenkins-agent
