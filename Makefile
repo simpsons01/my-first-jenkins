@@ -21,7 +21,7 @@ start-jenkins:
 		--network jenkins-network \
 		--network-alias jenkins \
 		--publish 8080:8080 \
-		--volume jenkins:/var/jenkins_home \
+		--volume jenkins_home:/var/jenkins_home \
 		jenkins-image
 
 enter-jenkins:
@@ -33,9 +33,6 @@ build-jenkins-agent:
 delete-jenkins-agent:
 	docker image rm jenkins-agent-image
 
-delete-jenkins-agent-volume:
-	docker volume rm jenkins-agent
-
 stop-jenkins-agent:
 	docker container stop jenkins-agent
 
@@ -45,7 +42,6 @@ start-jenkins-agent:
 		--rm \
 		--detach \
 		--env JENKINS_AGENT_SSH_PUBKEY="$(ssh_pubkey)" \
-		--volume jenkins-agent:/home/jenkins \
 		--network jenkins-network \
 		--network-alias jenkins-agent \
 		jenkins-agent-image
