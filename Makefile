@@ -45,11 +45,11 @@ start-jenkins-agent:
 		--rm \
 		--detach \
 		--env JENKINS_AGENT_SSH_PUBKEY="$(ssh_pubkey)" \
-		--volume jenkins-agent:/home/jenkins-agent \
+		--volume jenkins-agent:/home/jenkins \
 		--network jenkins-network \
 		--network-alias jenkins-agent \
 		jenkins-agent-image
 
 enter-jenkins-agent:
-	docker exec -it -u jenkins-agent jenkins-agent /bin/bash
+	docker exec -it -u jenkins jenkins-agent /bin/bash
  
