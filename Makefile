@@ -22,6 +22,9 @@ start-jenkins:
 		--network-alias jenkins \
 		--publish 8080:8080 \
 		--volume jenkins:/var/jenkins_home \
+		--volume $$(pwd)/jenkins/backup/users:/var/jenkins_home/users \
+		--volume $$(pwd)/jenkins/backup/jobs:/var/jenkins_home/jobs \
+		--volume $$(pwd)/jenkins/backup/secrets:/var/jenkins_home/secrets \
 		jenkins-image
 
 enter-jenkins:
