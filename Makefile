@@ -22,6 +22,7 @@ start-jenkins:
 		--network-alias jenkins \
 		--publish 8080:8080 \
 		--volume jenkins_home:/var/jenkins_home \
+		--restart always \
 		jenkins-image
 
 enter-jenkins:
@@ -44,6 +45,7 @@ start-jenkins-agent:
 		--env JENKINS_AGENT_SSH_PUBKEY="$(ssh_pubkey)" \
 		--network jenkins-network \
 		--network-alias jenkins-agent \
+		--restart always \
 		jenkins-agent-image
 
 enter-jenkins-agent:
