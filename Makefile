@@ -4,19 +4,16 @@ create-network:
 build-jenkins:
 	docker build -t jenkins-image ./jenkins
 
-delete-jenkins:
+delete-jenkins-image:
 	docker image rm jenkins-image
-
-delete-jenkins-volume:
-	docker volume rm jenkins
 
 stop-jenkins:
 	docker container stop jenkins
+	docker container rm jenkins
 
 start-jenkins:
 	docker run \
 		--name jenkins \
-		--rm \
 		--detach \
 		--network jenkins-network \
 		--network-alias jenkins \
@@ -31,21 +28,23 @@ enter-jenkins:
 build-jenkins-agent:
 	docker build -t jenkins-agent-image ./agent
 
-delete-jenkins-agent:
+delete-jenkins-agent-image:
 	docker image rm jenkins-agent-image
 
 stop-jenkins-agent:
 	docker container stop jenkins-agent
+	docker container rm jenkins-agent
 
 start-jenkins-agent:
 	docker run \
 		--name jenkins-agent \
-		--rm \
 		--detach \
-		--env JENKINS_AGENT_SSH_PUBKEY="$(ssh_pubkey)" \
 		--network jenkins-network \
 		--network-alias jenkins-agent \
 		--restart unless-stopped \
+		--env JENKINS_AGENT_SSH_PUBKEY="$(ssh_pubkey)" \
+		--cpus=$(cpu) \
+		--memory=${memory} \
 		jenkins-agent-image
 
 enter-jenkins-agent:
