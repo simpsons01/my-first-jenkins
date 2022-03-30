@@ -6,7 +6,8 @@ USER root
 
 RUN  apt-get update && \
      apt-get install -y curl && \
-     apt-get install -y unzip
+     apt-get install -y unzip && \
+     apt-get install -y git 
 
 # install node.js
 RUN  curl https://raw.githubusercontent.com/creationix/nvm/v0.20.0/install.sh | bash && \
