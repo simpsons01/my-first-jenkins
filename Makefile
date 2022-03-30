@@ -45,7 +45,6 @@ start-jenkins-agent:
 		--env JENKINS_AGENT_SSH_PUBKEY="$(ssh_pubkey)" \
 		--cpus="$(cpu)" \
 		--memory="${memory}" \
-		--volume jenkins_agent_aws:/home/jenkins/.aws \
 		jenkins-agent-image
 
 enter-jenkins-agent:
