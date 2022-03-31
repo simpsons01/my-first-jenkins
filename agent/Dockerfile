@@ -1,4 +1,4 @@
-FROM jenkins/ssh-agent:latest-jdk11
+FROM jenkins/ssh-agent:jdk11
 
 ENV NODE_VERSION="14.15.1"
 
