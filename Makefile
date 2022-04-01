@@ -43,6 +43,7 @@ start-jenkins-agent:
 		--network-alias jenkins-agent \
 		--restart unless-stopped \
 		--env JENKINS_AGENT_SSH_PUBKEY="$(ssh_pubkey)" \
+		--volume ${HOME}/.aws:/home/jenkins/.aws \
 		--cpus="$(cpu)" \
 		--memory="${memory}" \
 		jenkins-agent-image
