@@ -7,6 +7,5 @@
 - 需要撰寫哪些文件？
    - 如何撰寫Jenkinsfile
    - 如何新增credentials
-- 備份方式
-- 使用Jenkins的缺點
+- 要用什麼方式更新commit status與觸發建置的方式
    
