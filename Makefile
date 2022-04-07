@@ -1,53 +1,58 @@
+CONTROLLER_IMAGE_NAME = controller
+CONTROLLER_CONTAINER_NAME = jenkins-controller
+AGENT_IMAGE_NAME = agent
+AGENT_CONTAINER_NAME = jenkins-agent
+NETWORK_NAME = jenkins-network
+
 create-network:
-	docker network create jenkins-network
+	docker network create $(NETWORK_NAME)
 
-build-jenkins:
-	docker build -t jenkins-image ./jenkins
+build-controller:
+	docker build -t $(CONTROLLER_IMAGE_NAME) ./controller
 
-delete-jenkins-image:
-	docker image rm jenkins-image
+delete-controller-image:
+	docker image rm $(CONTROLLER_IMAGE_NAME)
 
-stop-jenkins:
-	docker container stop jenkins
-	docker container rm jenkins
+stop-controller:
+	docker container stop $(CONTROLLER_CONTAINER_NAME)
+	docker container rm $(CONTROLLER_CONTAINER_NAME)
 
-start-jenkins:
+start-controller:
 	docker run \
-		--name jenkins \
+		--name $(CONTROLLER_CONTAINER_NAME) \
 		--detach \
-		--network jenkins-network \
-		--network-alias jenkins \
+		--network $(NETWORK_NAME) \
+		--network-alias $(CONTROLLER_CONTAINER_NAME) \
 		--publish 8080:8080 \
-		--volume jenkins_home:/var/jenkins_home \
+		--volume $$(pwd)/controller/volumes:/var/jenkins_home/ \
 		--restart unless-stopped \
-		jenkins-image
+		controller
 
-enter-jenkins:
-	docker exec -it -u jenkins jenkins /bin/bash
+enter-controller:
+	docker exec -it -u jenkins $(CONTROLLER_CONTAINER_NAME) /bin/bash
 
-build-jenkins-agent:
-	docker build -t jenkins-agent-image ./agent
+build-agent:
+	docker build -t $(AGENT_IMAGE_NAME) ./agent
 
-delete-jenkins-agent-image:
-	docker image rm jenkins-agent-image
+delete-agent-image:
+	docker image rm $(AGENT_IMAGE_NAME)
 
-stop-jenkins-agent:
-	docker container stop jenkins-agent
-	docker container rm jenkins-agent
+stop-agent:
+	docker container stop $(AGENT_CONTAINER_NAME)
+	docker container rm $(AGENT_CONTAINER_NAME)
 
-start-jenkins-agent:
+start-agent:
 	docker run \
-		--name jenkins-agent \
+		--name $(AGENT_CONTAINER_NAME) \
 		--detach \
-		--network jenkins-network \
-		--network-alias jenkins-agent \
+		--network $(NETWORK_NAME) \
+		--network-alias $(AGENT_CONTAINER_NAME) \
 		--restart unless-stopped \
 		--env JENKINS_AGENT_SSH_PUBKEY="$(ssh_pubkey)" \
-		--volume ${HOME}/.aws:/home/jenkins/.aws \
 		--cpus="$(cpu)" \
 		--memory="${memory}" \
-		jenkins-agent-image
+		$(AGENT_IMAGE_NAME)
 
-enter-jenkins-agent:
-	docker exec -it -u jenkins jenkins-agent /bin/bash
+enter-agent:
+	docker exec -it -u jenkins $(AGENT_CONTAINER_NAME) /bin/bash
  
