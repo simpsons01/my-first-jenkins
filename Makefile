@@ -3,6 +3,7 @@ CONTROLLER_CONTAINER_NAME = jenkins-controller
 AGENT_IMAGE_NAME = agent
 AGENT_CONTAINER_NAME = jenkins-agent
 NETWORK_NAME = jenkins-network
+ON_FAILURE_MAX_RETRY = 10
 
 create-network:
 	docker network create $(NETWORK_NAME)
@@ -25,7 +26,7 @@ start-controller:
 		--network-alias $(CONTROLLER_CONTAINER_NAME) \
 		--publish 8080:8080 \
 		--volume $$(pwd)/controller/volumes:/var/jenkins_home/ \
-		--restart unless-stopped \
+		--restart on-failure:$(ON_FAILURE_MAX_RETRY) \
 		controller
 
 enter-controller:
@@ -47,7 +48,7 @@ start-agent:
 		--detach \
 		--network $(NETWORK_NAME) \
 		--network-alias $(AGENT_CONTAINER_NAME) \
-		--restart unless-stopped \
+		--restart on-failure:$(ON_FAILURE_MAX_RETRY) \
 		--env JENKINS_AGENT_SSH_PUBKEY="$(ssh_pubkey)" \
 		--cpus="$(cpu)" \
 		--memory="${memory}" \
