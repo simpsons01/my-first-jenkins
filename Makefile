@@ -50,8 +50,6 @@ start-agent:
 		--network-alias $(AGENT_CONTAINER_NAME) \
 		--restart on-failure:$(ON_FAILURE_MAX_RETRY) \
 		--env JENKINS_AGENT_SSH_PUBKEY="$(ssh_pubkey)" \
-		--cpus="$(cpu)" \
-		--memory="${memory}" \
 		$(AGENT_IMAGE_NAME)
 
 enter-agent:
