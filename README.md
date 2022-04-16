@@ -15,7 +15,7 @@
 - #### Q3:怎麼確保Jenkins跟Agent服務的穩定性？
   Docker提供[restart policy](https://docs.docker.com/config/containers/start-containers-automatically/)，讓container如果因為容器內的行程(process)出現錯誤後導致container關閉後，可以自動重啟，使用`on-failure` policy，並設定`max-retries`為10次
 - #### Q4: 如何處理備份？
-  Docker bind-mounts讓container可以與host共享檔案資料，因此當container被移除並重啟後，只有掛載同一個資料夾就可以取回已銷毀container的資料
+  [Docker bind-mounts](https://docs.docker.com/storage/bind-mounts/)讓container可以與host共享檔案資料，因此當container被移除並重啟後，只有掛載同一個資料夾就可以取回已銷毀container的資料
 
 ## 待討論
 - 需要撰寫哪些教學文件？
